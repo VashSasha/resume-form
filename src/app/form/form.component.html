@@ -1,0 +1,77 @@
+<div class="container">
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+    <p>
+      <mat-form-field appearance="legacy">
+        <mat-label>Имя</mat-label>
+        <input matInput placeholder="Placeholder" formControlName="firstName" type="text" required>
+      </mat-form-field>
+    </p>
+
+    <!-- lastName -->
+    <p>
+      <mat-form-field appearance="legacy">
+        <mat-label>Фамилия</mat-label>
+        <input matInput placeholder="Placeholder" formControlName="lastName" required>
+      </mat-form-field>
+    </p>
+    <!-- date picker -->
+    <p>
+      <mat-form-field appearance="legacy">
+        <mat-label>День Рождения</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" [max]="maxDate" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="legacy">
+        <mat-label>JS Tехнология</mat-label>
+        <mat-select (ngModelChange)="onChangeObj($event)" formControlName='framework' required>
+          <mat-option *ngFor="let item of frameworkV | keyvalue" [value]=item>{{item.key}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+
+    <!-- frameworkVersion -->
+    <p>
+      <mat-form-field appearance="legacy">
+        <mat-label>Версия</mat-label>
+        <mat-select formControlName='frameworkVersion' [disabled]="unselected" required>
+          <mat-option *ngFor="let version of selectedDeviceObj" value={{version}}> {{version}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field class="example-full-width" appearance="legacy">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="test@test.test" type="email" value="" formControlName="email" required>
+      </mat-form-field>
+    </p>
+
+
+    <div formArrayName="hobbies">
+      <div *ngFor="let hobby of hobbies.controls; let i = index" [formGroupName]="i">
+        <mat-form-field appearance="legacy">
+          <mat-label>Xобби</mat-label>
+          <input matInput placeholder="Placeholder" formControlName="type" type="text">
+        </mat-form-field>
+        <mat-form-field appearance="legacy">
+          <mat-label>Длительность</mat-label>
+          <input matInput placeholder="Placeholder" formControlName="duration" type="text">
+        </mat-form-field>
+      </div>
+
+      <button mat-stroked-button color="primary" (click)="addHobby()">Добавить
+        Xобби</button>
+    </div>
+
+    <!-- Email -->
+
+    <button mat-raised-button color="primary" [disabled]="profileForm.invalid" type="submit">Save</button>
+  </form>
+
+</div>
+<router-outlet></router-outlet>
